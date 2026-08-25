@@ -27,7 +27,9 @@ FASTPDIR=sequences/fastp_report
 
 #Trim herbarium sequence reads
 
-fastp -i $RAW/"$file"_R1_001.fastq.gz -I $RAW/"$file"_R2_001.fastq.gz -o $TRIMDIR/"$file"_R1_001.fastq.gz -O $TRIMDIR/"$file"_R2_001.fastq.gz --detect_adapter_for_pe --cut_right --dedup -h $FASTPDIR/"$file".html -g -w 16
+fastp -i $RAW/"$file"_R1_001.fastq.gz -I $RAW/"$file"_R2_001.fastq.gz \
+-o $TRIMDIR/"$file"_R1_001.fastq.gz -O $TRIMDIR/"$file"_R2_001.fastq.gz \
+--detect_adapter_for_pe --cut_right --dedup -h $FASTPDIR/"$file".html -g -w 16
 ```
 
 Description of alignment
