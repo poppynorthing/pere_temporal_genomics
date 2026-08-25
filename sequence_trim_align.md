@@ -4,17 +4,30 @@ Raw PE sequence reads were trimmed using [fastp](https://github.com/opengene/fas
 Code adapted from '01_SequenceProcessingAndAlignment.sh' script by Brandon Thomas Hendrickson ([github repo: HerbariumStructure_WhiteClover](https://github.com/Brandon-Thomas-Hendrickson/HerbariumStructure_WhiteClover)).
 
 ```
-RAW=temporal_genomics/sequences/raw
-TRIMDIR=/temporal_genomics/sequences/trimmed
-FASTPDIR=/temporal_genomics/sequences/fastp_report
-S1=_R1_001.fastq.gz
-S2=_R2_001.fastq.gz
+!/bin/bash
+
+#SBATCH --job-name=fastp
+#SBATCH --output=fastp%i%j.out
+#SBATCH --partition=standard
+#SBATCH --account=kdlugosch
+#SBATCH --ntasks=1
+#SBATCH --nodes=1
+#SBATCH --mem-per-cpu=4gb
+#SBATCH --cpus-per-task=2
+#SBATCH --time=1-12:00:00
+#SBATCH --array=1-190%25
+
+file=$(cat ./file_lists/raw_sequence_prefixes.txt | sed -n ${SLURM_ARRAY_TASK_ID}p)
+
+ml fastp
+
+RAW=sequences/raw
+TRIMDIR=sequences/trimmed
+FASTPDIR=sequences/fastp_report
 
 #Trim herbarium sequence reads
 
-for i in $(cat temporal_genomics/file_lists/raw_sequence_prefixes.txt);
-do fastp -i $RAW/$i$S1 -I $RAW/$i$S2 -o $TRIMDIR/$i$S1 -O $TRIMDIR/$i$S2 --detect_adapter_for_pe --cut_right --dedup -h $FASTPDIR/$i'.html' -g -w 16;
-done
+fastp -i $RAW/"$file"_R1_001.fastq.gz -I $RAW/"$file"_R2_001.fastq.gz -o $TRIMDIR/"$file"_R1_001.fastq.gz -O $TRIMDIR/"$file"_R2_001.fastq.gz --detect_adapter_for_pe --cut_right --dedup -h $FASTPDIR/"$file".html -g -w 16
 ```
 
 Description of alignment
