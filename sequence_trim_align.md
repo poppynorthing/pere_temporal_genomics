@@ -1,5 +1,6 @@
 # Trimming raw sequences and aligning to reference
 
+## Trimming
 Raw PE sequence reads were trimmed using [fastp](https://github.com/opengene/fastp) v0.23.4 (Chen 2025). We removed adapter sequences (--detect_adapter_for_pe), removed low-quality reads (--cut_right), and removed PCR duplicate reads (--dedup).
 Code partially adapted from '01_SequenceProcessingAndAlignment.sh' script by Brandon Thomas Hendrickson ([github repo: HerbariumStructure_WhiteClover](https://github.com/Brandon-Thomas-Hendrickson/HerbariumStructure_WhiteClover)).
 
@@ -31,9 +32,7 @@ fastp -i $RAW/"$file"_R1_001.fastq.gz -I $RAW/"$file"_R2_001.fastq.gz \
 -o $TRIMDIR/"$file"_R1_001.fastq.gz -O $TRIMDIR/"$file"_R2_001.fastq.gz \
 --detect_adapter_for_pe --cut_right --dedup -h $FASTPDIR/"$file".html -g -w 16
 ```
-
-Description of alignment
-
+## Alignment
 Trimmed reads were aligned to the chromosomes from the <i>Pectocarya recurvata</i> reference genome (Northing et al. 2025) using [BWA](https://github.com/lh3/bwa) mem v0.7.18 (Li 2013) with default settings.
 
 ```
