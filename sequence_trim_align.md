@@ -37,11 +37,36 @@ Description of alignment
 Trimmed reads were aligned to the chromosomes from the <i>Pectocarya recurvata</i> reference genome (Northing et al. 2025) using [BWA](https://github.com/lh3/bwa) mem v0.7.18 (Li 2013) with default settings.
 
 ```
-# make index of pere reference genome
-bwa index pere_ch.fa
+#!/bin/bash
 
-# align reads to reference
-bwa mem 
+#SBATCH --job-name=bwa
+#SBATCH --output=bwa%j.out
+#SBATCH --partition=standard
+#SBATCH --account=kdlugosch
+#SBATCH --ntasks=1
+#SBATCH --nodes=1
+#SBATCH --mem-per-cpu=4gb
+#SBATCH --cpus-per-task=2
+#SBATCH --time=1-12:00:00
+#SBATCH --array=1-190%25
+
+file=$(cat ./file_lists/raw_sequence_prefixes.txt | sed -n ${SLURM_ARRAY_TASK_ID}p)
+
+ml bwa
+ml samtools
+
+GENOME=/xdisk/kdlugosch/pcnorthing/Genome/pere_ch.fa
+TRIMDIR=sequences/trimmed
+ALIGNDIR=sequences/aligned
+
+#Index Pectocarya recurvata reference chromosomes
+bwa index $GENOME
+
+#Align trimmed reads to PERE reference genome and convert sams to bams
+
+bwa mem -t 16 $GENOME $TRIMDIR/"$file"_R1_001.fastq.gz $TRIMDIR/"$file"_R2_001.fastq.gz > $ALIGNDIR/"$file".sam
+samtools view -bS $ALIGNDIR/"$file".sam | samtools sort -@ 48 -o $ALIGNDIR/"$file".bam
+rm $ALIGNDIR/"$file".sam
 ```
 
 
