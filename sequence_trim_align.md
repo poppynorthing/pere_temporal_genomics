@@ -69,7 +69,7 @@ samtools sort $ALIGNDIR/"$file".bam -@ 48 -o $ALIGNDIR/"$file".bam
 rm $ALIGNDIR/"$file".sam
 
 #Get alignment stats
-samtools flagstat
+samtools flagstat $ALIGNDIR/"$file".bam
 ```
 
 
