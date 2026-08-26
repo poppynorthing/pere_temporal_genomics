@@ -64,8 +64,12 @@ bwa index $GENOME
 #Align trimmed reads to PERE reference genome and convert sams to bams
 
 bwa mem -t 16 $GENOME $TRIMDIR/"$file"_R1_001.fastq.gz $TRIMDIR/"$file"_R2_001.fastq.gz > $ALIGNDIR/"$file".sam
-samtools view -bS $ALIGNDIR/"$file".sam | samtools sort -@ 48 -o $ALIGNDIR/"$file".bam
+samtools view -bS $ALIGNDIR/"$file".sam
+samtools sort $ALIGNDIR/"$file".bam -@ 48 -o $ALIGNDIR/"$file".bam
 rm $ALIGNDIR/"$file".sam
+
+#Get alignment stats
+samtools flagstat
 ```
 
 
