@@ -76,6 +76,7 @@ mapped=`samtools flagstat $bam -@ 24 | grep mapped | head -n 1 | cut -f 1 -d' '`
 echo "${file},${reads},${mapped}" >> mapping_stats.csv
 
 ```
+Merge alignment reads from different lanes of sequencing.
 
 ```
 #!/bin/bash
