@@ -69,7 +69,12 @@ samtools sort $ALIGNDIR/"$file".bam -@ 48 -o $ALIGNDIR/"$file".bam
 rm $ALIGNDIR/"$file".sam
 
 #Get alignment stats
-samtools flagstat $ALIGNDIR/"$file".bam
+for bam in $ALIGNDIR/*.bam;
+  do echo $bam
+  reads=`samtools flagstat $bam | grep total | cut -f 1 -d' '`
+  mapped=`samtools flagstat $bam | grep mapped | head -n 1 | cut -f 1 -d' '`
+  echo "${bam},${reads},${mapped}" >> mapping_stats.csv
+done
 ```
 
 
