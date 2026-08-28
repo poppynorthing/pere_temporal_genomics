@@ -68,15 +68,39 @@ samtools view -bS $ALIGNDIR/"$file".sam > $ALIGNDIR/"$file".bam
 samtools sort $ALIGNDIR/"$file".bam -@ 48 -o $ALIGNDIR/"$file".bam
 rm $ALIGNDIR/"$file".sam
 
-#Get alignment stats
-for bam in $ALIGNDIR/*.bam;
-  do echo $bam
-  reads=`samtools flagstat $bam | grep total | cut -f 1 -d' '`
-  mapped=`samtools flagstat $bam | grep mapped | head -n 1 | cut -f 1 -d' '`
-  echo "${bam},${reads},${mapped}" >> mapping_stats.csv
-done
+# Get alignment stats
+
+bam=$ALIGNDIR/"$file".bam
+reads=`samtools flagstat $bam -@ 24 | grep total | cut -f 1 -d' '`
+mapped=`samtools flagstat $bam -@ 24 | grep mapped | head -n 1 | cut -f 1 -d' '`
+echo "${file},${reads},${mapped}" >> mapping_stats.csv
+
 ```
 
+```
+#!/bin/bash
+
+#SBATCH --job-name=merge_bams
+#SBATCH --output=merge_bams%j.out
+#SBATCH --partition=standard
+#SBATCH --account=kdlugosch
+#SBATCH --ntasks=1
+#SBATCH --nodes=1
+#SBATCH --mem-per-cpu=4gb
+#SBATCH --cpus-per-task=2
+#SBATCH --time=4-12:00:00
+#SBATCH --array=1-95%25
+
+sample=$(cat ./file_lists/sample_ids.txt | sed -n ${SLURM_ARRAY_TASK_ID}p)
+
+ml samtools
+
+cd ./sequences/aligned/
+
+# merge bams
+
+samtools merge -f "$sample"_merged.bam "$sample"_007.bam "$sample"_001.bam
+```
 
 References:
 Li H. (2013) Aligning sequence reads, clone sequences and assembly contigs with BWA-MEM. arXiv:1303.3997v2 [q-bio.GN]. (if you use the BWA-MEM algorithm or the fastmap command, or want to cite the whole BWA package)
