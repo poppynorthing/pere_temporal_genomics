@@ -76,7 +76,7 @@ mapped=`samtools flagstat $bam -@ 24 | grep mapped | head -n 1 | cut -f 1 -d' '`
 echo "${file},${reads},${mapped}" >> mapping_stats.csv
 
 ```
-Merge alignment reads from different lanes of sequencing.
+Merge alignment reads from different lanes of sequencing using [samtools](https://academic.oup.com/bioinformatics/article/25/16/2078/204688) v1.19.2 merge (Li et al. 2009).
 
 ```
 #!/bin/bash
@@ -104,6 +104,8 @@ samtools merge -f "$sample"_merged.bam "$sample"_007.bam "$sample"_001.bam
 ```
 
 References:
+Heng Li, Bob Handsaker, Alec Wysoker, Tim Fennell, Jue Ruan, Nils Homer, Gabor Marth, Goncalo Abecasis, Richard Durbin, 1000 Genome Project Data Processing Subgroup, The Sequence Alignment/Map format and SAMtools, Bioinformatics, Volume 25, Issue 16, August 2009, Pages 2078–2079, https://doi.org/10.1093/bioinformatics/btp352
+
 Li H. (2013) Aligning sequence reads, clone sequences and assembly contigs with BWA-MEM. arXiv:1303.3997v2 [q-bio.GN]. (if you use the BWA-MEM algorithm or the fastmap command, or want to cite the whole BWA package)
 
 Northing PC, Pelosi JA, Venable DL, Dlugosch KM. Chromosome-scale reference genome of Pectocarya recurvata, the species with the smallest reported genome size in Boraginaceae. Appl Plant Sci. 2025 May 21;13(3):e70008. doi: 10.1002/aps3.70008.
