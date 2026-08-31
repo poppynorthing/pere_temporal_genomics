@@ -30,7 +30,7 @@ FASTPDIR=sequences/fastp_report
 
 fastp -i $RAW/"$file"_R1_001.fastq.gz -I $RAW/"$file"_R2_001.fastq.gz \
 -o $TRIMDIR/"$file"_R1_001.fastq.gz -O $TRIMDIR/"$file"_R2_001.fastq.gz \
---detect_adapter_for_pe --cut_right --dedup -h $FASTPDIR/"$file".html -g -w 16
+--detect_adapter_for_pe --cut_right --trim_front1 10 --trim_front2 10 --dedup -h $FASTPDIR/"$file".html -g -w 16
 ```
 ## Alignment
 Trimmed reads were aligned to the chromosomes from the <i>Pectocarya recurvata</i> reference genome (Northing et al. 2025) using [BWA](https://github.com/lh3/bwa) mem v0.7.18 (Li 2013) with default settings.
