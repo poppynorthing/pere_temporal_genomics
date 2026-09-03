@@ -68,13 +68,6 @@ samtools view -bS $ALIGNDIR/"$file".sam > $ALIGNDIR/"$file".bam
 samtools sort $ALIGNDIR/"$file".bam -@ 48 -o $ALIGNDIR/"$file".bam
 rm $ALIGNDIR/"$file".sam
 
-# Get alignment stats
-
-bam=$ALIGNDIR/"$file".bam
-reads=`samtools flagstat $bam -@ 24 | grep total | cut -f 1 -d' '`
-mapped=`samtools flagstat $bam -@ 24 | grep mapped | head -n 1 | cut -f 1 -d' '`
-echo "${file},${reads},${mapped}" >> mapping_stats.csv
-
 ```
 Merge alignment reads from different lanes of sequencing using [samtools](https://academic.oup.com/bioinformatics/article/25/16/2078/204688) v1.19.2 merge (Li et al. 2009).
 
@@ -102,12 +95,41 @@ cd ./sequences/aligned/
 
 samtools merge -f "$sample"_merged.bam "$sample"_007.bam "$sample"_001.bam
 ```
+## Mapping and error rate assessment
+
+Use mapDamage v2.2.3 to assess damage in the reads ([Jónsson et al. 2013](https://academic.oup.com/bioinformatics/article/29/13/1682/184965)).
+
+```
+#!/bin/bash
+
+sample=$(cat ./file_lists/sample_ids.txt | sed -n ${SLURM_ARRAY_TASK_ID}p)
+ml samtools
+source activate MAPDAMAGE
+
+echo mapDamage -v
+
+# Get alignment stats
+
+bam=$ALIGNDIR/"$file".bam
+reads=`samtools flagstat $bam -@ 24 | grep total | cut -f 1 -d' '`
+mapped=`samtools flagstat $bam -@ 24 | grep mapped | head -n 1 | cut -f 1 -d' '`
+echo "${file},${reads},${mapped}" >> mapping_stats.csv
+
+# Assess damage
+
+
+
+```
 
 References:
-Heng Li, Bob Handsaker, Alec Wysoker, Tim Fennell, Jue Ruan, Nils Homer, Gabor Marth, Goncalo Abecasis, Richard Durbin, 1000 Genome Project Data Processing Subgroup, The Sequence Alignment/Map format and SAMtools, Bioinformatics, Volume 25, Issue 16, August 2009, Pages 2078–2079, https://doi.org/10.1093/bioinformatics/btp352
+Li, Heng, Bob Handsaker, Alec Wysoker, Tim Fennell, Jue Ruan, Nils Homer, Gabor Marth, Goncalo Abecasis, Richard Durbin, 1000 Genome Project Data Processing Subgroup, The Sequence Alignment/Map format and SAMtools, Bioinformatics, Volume 25, Issue 16, August 2009, Pages 2078–2079, https://doi.org/10.1093/bioinformatics/btp352
 
 Li H. (2013) Aligning sequence reads, clone sequences and assembly contigs with BWA-MEM. arXiv:1303.3997v2 [q-bio.GN].
+
+Jónsson, Hákon, Aurélien Ginolhac, Mikkel Schubert, Philip L. F. Johnson, Ludovic Orlando, mapDamage2.0: fast approximate Bayesian estimates of ancient DNA damage parameters, Bioinformatics, Volume 29, Issue 13, July 2013, Pages 1682–1684, https://doi.org/10.1093/bioinformatics/btt193
 
 Northing PC, Pelosi JA, Venable DL, Dlugosch KM. Chromosome-scale reference genome of Pectocarya recurvata, the species with the smallest reported genome size in Boraginaceae. Appl Plant Sci. 2025 May 21;13(3):e70008. doi: 10.1002/aps3.70008.
 
 Shifu Chen. fastp 1.0: An ultra-fast all-round tool for FASTQ data quality control and preprocessing. iMeta 4.5 (2025): e70078 https://doi.org/10.1002/imt2.70078
+
+
