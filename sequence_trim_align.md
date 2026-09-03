@@ -97,7 +97,7 @@ samtools merge -f "$sample"_merged.bam "$sample"_007.bam "$sample"_001.bam
 ```
 ## Mapping and error rate assessment
 
-Generate mapping rates using [samtools](https://academic.oup.com/bioinformatics/article/25/16/2078/204688) v1.19.2 flagstat (Li et al. 2009). Assess deamination-caused damage in our reads using [mapDamage v2.2.3](https://academic.oup.com/bioinformatics/article/29/13/1682/184965) (Jónsson et al. 2013).
+Generate mapping rates using [samtools](https://academic.oup.com/bioinformatics/article/25/16/2078/204688) v1.19.2 flagstat (Li et al. 2009). Assess deamination-caused damage in our reads using [mapDamage](https://academic.oup.com/bioinformatics/article/29/13/1682/184965) v2.2.3 (Jónsson et al. 2013).
 
 ```
 #!/bin/bash
