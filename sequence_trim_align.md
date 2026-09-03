@@ -7,17 +7,6 @@ Code partially adapted from '01_SequenceProcessingAndAlignment.sh' script by Bra
 ```
 !/bin/bash
 
-#SBATCH --job-name=fastp
-#SBATCH --output=fastp%i%j.out
-#SBATCH --partition=standard
-#SBATCH --account=kdlugosch
-#SBATCH --ntasks=1
-#SBATCH --nodes=1
-#SBATCH --mem-per-cpu=4gb
-#SBATCH --cpus-per-task=2
-#SBATCH --time=1-12:00:00
-#SBATCH --array=1-190%25
-
 file=$(cat ./file_lists/raw_sequence_prefixes.txt | sed -n ${SLURM_ARRAY_TASK_ID}p)
 
 ml fastp
@@ -37,17 +26,6 @@ Trimmed reads were aligned to the chromosomes from the <i>Pectocarya recurvata</
 
 ```
 #!/bin/bash
-
-#SBATCH --job-name=bwa
-#SBATCH --output=bwa%j.out
-#SBATCH --partition=standard
-#SBATCH --account=kdlugosch
-#SBATCH --ntasks=1
-#SBATCH --nodes=1
-#SBATCH --mem-per-cpu=4gb
-#SBATCH --cpus-per-task=2
-#SBATCH --time=1-12:00:00
-#SBATCH --array=1-190%25
 
 file=$(cat ./file_lists/raw_sequence_prefixes.txt | sed -n ${SLURM_ARRAY_TASK_ID}p)
 
@@ -73,17 +51,6 @@ Merge alignment reads from different lanes of sequencing using [samtools](https:
 
 ```
 #!/bin/bash
-
-#SBATCH --job-name=merge_bams
-#SBATCH --output=merge_bams%j.out
-#SBATCH --partition=standard
-#SBATCH --account=kdlugosch
-#SBATCH --ntasks=1
-#SBATCH --nodes=1
-#SBATCH --mem-per-cpu=4gb
-#SBATCH --cpus-per-task=2
-#SBATCH --time=4-12:00:00
-#SBATCH --array=1-95%25
 
 sample=$(cat ./file_lists/sample_ids.txt | sed -n ${SLURM_ARRAY_TASK_ID}p)
 
