@@ -97,16 +97,15 @@ samtools merge -f "$sample"_merged.bam "$sample"_007.bam "$sample"_001.bam
 ```
 ## Mapping and error rate assessment
 
-Use mapDamage v2.2.3 to assess damage in the reads ([Jónsson et al. 2013](https://academic.oup.com/bioinformatics/article/29/13/1682/184965)).
+Generate mapping rates using [samtools](https://academic.oup.com/bioinformatics/article/25/16/2078/204688) v1.19.2 flagstat (Li et al. 2009). Assess deamination-caused damage in our reads using [mapDamage v2.2.3]((https://academic.oup.com/bioinformatics/article/29/13/1682/184965) (Jónsson et al. 2013).
 
 ```
 #!/bin/bash
 
-sample=$(cat ./file_lists/sample_ids.txt | sed -n ${SLURM_ARRAY_TASK_ID}p)
+source ~/.bashrc
+file=$(cat ./file_lists/sample_ids.txt | sed -n ${SLURM_ARRAY_TASK_ID}p)
 ml samtools
-source activate MAPDAMAGE
-
-echo mapDamage -v
+conda activate MAPDAMAGE
 
 # Get alignment stats
 
@@ -117,7 +116,7 @@ echo "${file},${reads},${mapped}" >> mapping_stats.csv
 
 # Assess damage
 
-
+mapDamage -i $ALIGNDIR/$file.bam -r $REF
 
 ```
 
