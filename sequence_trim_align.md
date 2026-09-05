@@ -46,7 +46,7 @@ samtools sort $ALIGNDIR/"$file".bam -@ 48 -o $ALIGNDIR/"$file".bam
 rm $ALIGNDIR/"$file".sam
 
 ```
-Before merging, add read group information to each bam using picard v2.23.4 (REF). This must be repeated for each lane of sequencing (this shows code for lane 1; I also did this for lane 7). This step is important for marking PCR and optical duplicates before calling variants.
+Before merging, add read group information to each bam using [picard](https://github.com/broadinstitute/picard) v2.23.4 (Picard Toolkit 2019). This must be repeated for each lane of sequencing (this shows code for lane 1; I also did this for lane 7). This step is important for marking PCR and optical duplicates before calling variants.
 ```
 #!/bin/bash
 
