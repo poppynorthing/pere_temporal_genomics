@@ -21,8 +21,25 @@ picard MarkDuplicates I=$BAMDIR/"$file"_merged.rg.bam O=$BAMDIR/"$file".markedDu
 
 ## Call variants
 
+First, make a dictionary for the <i>P. recurvata</i> reference chromosomes.
 
 ```
+#!/bin/bash
+
+ml picard
+REF=/xdisk/kdlugosch/pcnorthing/Genome/pere_ch.fa
+
+# Create a sequence dictionary for the reference 
+picard CreateSequenceDictionary R=$REF O=pere_ch.dict
+```
+
+Then, run gatk vX (REF) to call variants.
+```
+#!/bin/bash
+
+ml gatk
+
+
 
 ```
 
