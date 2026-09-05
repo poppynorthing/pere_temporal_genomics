@@ -1,4 +1,4 @@
-# Trimming raw sequences and aligning to reference
+# Trimming raw reads and aligning to reference
 
 ## Trimming
 Raw PE sequence reads were trimmed using [fastp](https://github.com/opengene/fastp) v0.23.4 (Chen 2025). We removed adapter sequences (--detect_adapter_for_pe), removed low-quality reads (--cut_right), and removed PCR duplicate reads (--dedup).
