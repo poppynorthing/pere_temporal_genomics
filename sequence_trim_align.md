@@ -94,7 +94,7 @@ cd ./sequences/aligned/
 
 # merge bams
 
-samtools merge -f "$sample"_merged.bam "$sample"_007.bam "$sample"_001.bam
+samtools merge -f "$sample"_merged.bam "$sample"_007.rg.bam "$sample"_001.rg.bam
 ```
 ## Mapping and error rate assessment
 
