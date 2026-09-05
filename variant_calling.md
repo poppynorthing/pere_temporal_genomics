@@ -2,7 +2,7 @@
 
 ## Mark duplicate reads
 
-PCR and optical duplicates were removed using picard vX (REF). Make sure that picard has enough memory; I had to set mem-per-cpu to 16
+PCR and optical duplicates were removed using [picard](https://github.com/broadinstitute/picard) vv2.23.4 (Picard Toolkit 2019). Make sure that picard has enough memory; I had to set mem-per-cpu to 16
 to get this to run.
 
 ```
@@ -28,3 +28,7 @@ picard MarkDuplicates I=$BAMDIR/"$file"_merged.rg.bam O=$BAMDIR/"$file".markedDu
 ```
 
 ```
+
+## References
+
+Picard Toolkit. 2019. Broad Institute, GitHub Repository. https://broadinstitute.github.io/picard/; Broad Institute
