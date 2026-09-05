@@ -46,7 +46,42 @@ samtools sort $ALIGNDIR/"$file".bam -@ 48 -o $ALIGNDIR/"$file".bam
 rm $ALIGNDIR/"$file".sam
 
 ```
-Merge alignment reads from different lanes of sequencing using [samtools](https://academic.oup.com/bioinformatics/article/25/16/2078/204688) v1.19.2 merge (Li et al. 2009).
+Before merging, add read group information to each bam using picard v2.23.4 (REF). This must be repeated for each lane of sequencing (this shows code for lane 1; I also did this for lane 7). This step is important for marking PCR and optical duplicates before calling variants.
+```
+#!/bin/bash
+
+sample=$(cat ./file_lists/sample_ids.txt | sed -n ${SLURM_ARRAY_TASK_ID}p)
+
+cd ./sequences/aligned
+
+ml picard
+ml samtools
+
+BAMDIR=sequences/aligned
+REF=/xdisk/kdlugosch/pcnorthing/Genome/pere_ch.fa
+
+read_name=$(samtools view "$sample"_L001.bam | head -1 | cut -f1)
+flowcell=$(echo "$read_name" | cut -d: -f3)
+lane=$(echo "$read_name" | cut -d: -f4)
+
+echo $read_name
+echo $flowcell
+echo $lane
+
+# Add read group information to pre-merged bams
+
+picard AddOrReplaceReadGroups \
+    I="$sample"_L001.bam \
+    O="$sample"_L001.rg.bam \
+    SORT_ORDER=coordinate \
+    RGID="${flowcell}.${lane}" \
+    RGLB=GE-8688 \
+    RGPL=illumina \
+    RGPU="${flowcell}.${lane}" \
+    RGSM="$sample"
+```
+
+Then, merge alignment reads from different lanes of sequencing using [samtools](https://academic.oup.com/bioinformatics/article/25/16/2078/204688) v1.19.2 merge (Li et al. 2009).
 
 ```
 #!/bin/bash
