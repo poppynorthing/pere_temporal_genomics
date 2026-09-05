@@ -10,12 +10,9 @@ to get this to run.
 
 file=$(cat ./file_lists/sample_ids.txt | sed -n ${SLURM_ARRAY_TASK_ID}p)
 
-ml samtools
 ml picard
-ml gatk
 
 BAMDIR=sequences/aligned
-REF=/xdisk/kdlugosch/pcnorthing/Genome/pere_ch.fa
 
 # Mark duplicates (pcr + optical) w/ picard
 
