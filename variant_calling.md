@@ -38,10 +38,14 @@ Then, run [gatk](https://gatk.broadinstitute.org/hc/en-us) HaplotypeCaller vX (V
 #!/bin/bash
 
 ml gatk
+ml samtools
 
 BAMDIR=sequences/aligned
 VCFDIR=sequences/vcf
 REF=/xdisk/kdlugosch/pcnorthing/Genome/pere_ch.fa
+
+# Make an index of every bam file
+samtools index $BAMDIR/"$file".markedDups.bam
 
 # use GATK haplotype caller to call variants for ploidy = 2:
 gatk HaplotypeCaller -R $REF -I $BAMDIR/"$file".markedDups.bam -ploidy 2 -O $VCFDIR/"$file".2.vcf.gz -ERC GVCF
