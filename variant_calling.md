@@ -39,7 +39,15 @@ Then, run gatk vX (REF) to call variants.
 
 ml gatk
 
+BAMDIR=sequences/aligned
+VCFDIR=sequences/vcf
+REF=/xdisk/kdlugosch/pcnorthing/Genome/pere_ch.fa
 
+# use GATK haplotype caller to call variants for ploidy = 2:
+gatk HaplotypeCaller -R $REF -I $BAMDIR/"$file".markedDups.bam -ploidy 2 -O $VCFDIR/"$file".2.vcf.gz -ERC GVCF
+
+# use GATK haplotype caller to call variants for ploidy = 4:
+gatk HaplotypeCaller -R $REF -I $BAMDIR/"$file".markedDups.bam -ploidy 4 -O $VCFDIR/"$file".4.vcf.gz -ERC GVCF
 
 ```
 
