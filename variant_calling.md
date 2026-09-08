@@ -33,7 +33,7 @@ REF=/xdisk/kdlugosch/pcnorthing/Genome/pere_ch.fa
 picard CreateSequenceDictionary R=$REF O=pere_ch.dict
 ```
 
-Then, run [gatk](https://gatk.broadinstitute.org/hc/en-us) HaplotypeCaller vX (Van der Auwera and O'Connor 2020) to call variants.
+Then, run [gatk](https://gatk.broadinstitute.org/hc/en-us) v4.2.5.0 HaplotypeCaller (Van der Auwera and O'Connor 2020) to call variants.
 ```
 #!/bin/bash
 
