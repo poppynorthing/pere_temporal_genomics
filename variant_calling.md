@@ -71,10 +71,13 @@ REF=/xdisk/kdlugosch/pcnorthing/Genome/pere_ch.fa
 gatk ScatterIntervalsByNs -R $REF -O intervals.interval_list
 
 # Combine vcfs
-gatk GenomicsDBImport --java-options "-Xmx164g -Xms96g" --genomicsdb-workspace-path genomicsDB_database --batch-size 30 -L intervals.interval_list --sample-name-map $samples
+gatk GenomicsDBImport --java-options "-Xmx164g -Xms96g" --genomicsdb-workspace-path genomicsDB_database --batch-size 10 -L intervals.interval_list --sample-name-map $samples
 
-# Joint genotyping 
-gatk GenotypeGVCFs -R reference.fasta -V gendb://parallelDB.reference -O reference.calledGTs.vcf.gz --sample-ploidy 4
+# Joint genotyping for ploidy = 2
+gatk GenotypeGVCFs -R $REF -V gendb://parallelDB.reference -O reference.calledGTs.vcf.gz --sample-ploidy 2
+
+# Joint genotyping for ploidy = 4
+gatk GenotypeGVCFs -R $REF -V gendb://parallelDB.reference -O reference.calledGTs.vcf.gz --sample-ploidy 4
 
 ```
 
