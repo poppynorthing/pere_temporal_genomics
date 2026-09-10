@@ -54,6 +54,27 @@ gatk HaplotypeCaller -R $REF -I $BAMDIR/"$file".markedDups.bam -ploidy 2 -O $VCF
 gatk HaplotypeCaller -R $REF -I $BAMDIR/"$file".markedDups.bam -ploidy 4 -O $VCFDIR/"$file".4.vcf.gz -ERC GVCF
 
 ```
+## Assign genotypes
+
+To assign genotypes, vcfs need to be merged for every individual w/ [gatk](https://gatk.broadinstitute.org/hc/en-us) v4.2.5.0 genomicsDBImport (Van der Auwera and O'Connor 2020).
+
+```
+#!bin/bash
+
+ml gatk
+
+samples=file_lists/sample_map.txt
+VCFDIR=sequences/vcf/diploid
+REF=/xdisk/kdlugosch/pcnorthing/Genome/pere_ch.fa
+
+# Make reference intervals
+gatk ScatterIntervalsByNs -R $REF -O intervals.intervals_list
+
+# Combine vcfs
+gatk GenomicsDBImport --java-options "-Xmx164g -Xms96g" --genomicsdb-workspace-path genomicsDB_database --batch-size 30 -L intervals.intervals_list --sample-name-map $samples
+
+```
+
 
 ## References
 
