@@ -56,7 +56,7 @@ gatk HaplotypeCaller -R $REF -I $BAMDIR/"$file".markedDups.bam -ploidy 4 -O $VCF
 ```
 ## Assign genotypes
 
-To assign genotypes, vcfs need to be merged for every individual w/ [gatk](https://gatk.broadinstitute.org/hc/en-us) v4.2.5.0 genomicsDBImport (Van der Auwera and O'Connor 2020) before joint genotyping with GenotypeGVCFs.
+To assign genotypes, vcfs need to be merged for every individual w/ [gatk](https://gatk.broadinstitute.org/hc/en-us) v4.2.5.0 genomicsDBImport (Van der Auwera and O'Connor 2020) before joint genotyping with GenotypeGVCFs. When merging, make sure to give your slurm job plenty of memory; I set --mem-per-cpu=14gb and --cpus-per-task=12 to get it to run.
 
 ```
 #!bin/bash
