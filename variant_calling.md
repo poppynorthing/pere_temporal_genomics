@@ -74,11 +74,22 @@ gatk ScatterIntervalsByNs -R $REF -O intervals.interval_list
 gatk GenomicsDBImport --java-options "-Xmx164g -Xms96g" --genomicsdb-workspace-path genomicsDB_database --batch-size 10 -L intervals.interval_list --sample-name-map $samples
 
 # Joint genotyping for ploidy = 2
-gatk GenotypeGVCFs -R $REF -V gendb://parallelDB.reference -O reference.calledGTs.vcf.gz --sample-ploidy 2
+gatk GenotypeGVCFs \
+  --java-options "-Xmx64g -Xms32g" \
+  -R $REF \
+  -V gendb://genomicsDB_database \
+  -L intervals.interval_list \
+  --sample-ploidy 2 \
+  -O joint_genotyped.2.vcf.gz
 
 # Joint genotyping for ploidy = 4
-gatk GenotypeGVCFs -R $REF -V gendb://parallelDB.reference -O reference.calledGTs.vcf.gz --sample-ploidy 4
-
+gatk GenotypeGVCFs \
+  --java-options "-Xmx64g -Xms32g" \
+  -R $REF \
+  -V gendb://genomicsDB_database4 \
+  -L intervals.interval_list \
+  --sample-ploidy 4 \
+  -O joint_genotyped.4.vcf.gz
 ```
 
 
