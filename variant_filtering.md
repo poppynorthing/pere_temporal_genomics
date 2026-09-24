@@ -16,20 +16,20 @@ bcftools stats $VCF > $VCF.vcfstats
 
 # Generate variant stats
 
-    # report mean depth per individual
-    vcftools --gzvcf $VCF --depth --out vcf_stats/vcf.2
+# report mean depth per individual
+vcftools --gzvcf $VCF --depth --out vcf_stats/vcf.2
 
-    # report mean depth per site
-    vcftools --gzvcf $VCF --site-mean-depth --out vcf_stats/vcf.2
+# report mean depth per site
+vcftools --gzvcf $VCF --site-mean-depth --out vcf_stats/vcf.2
 
-    # report per-individual missingness
-    vcftools --gzvcf $VCF --missing-indv --out vcf_stats/vcf.2
+# report per-individual missingness
+vcftools --gzvcf $VCF --missing-indv --out vcf_stats/vcf.2
 
-    # report per-site missingness
-    vcftools --gzvcf $VCF --missing-site --out vcf_stats/vcf.2
+# report per-site missingness
+vcftools --gzvcf $VCF --missing-site --out vcf_stats/vcf.2
 
-    # report per-individual heterozyosity and Fis
-    vcftools --gzvcf $VCF --het --out vcf_stats/vcf.2
+# report per-individual heterozyosity and Fis
+vcftools --gzvcf $VCF --het --out vcf_stats/vcf.2
 ```
 Then, I looked at these data in R v4.4.1. This is a script modified from Jessica A. Rick's [Bioinformatics for Conservation course](https://jessicarick.github.io/bioinformatics-for-conservation/docs/folder/5-variant-filtering/).
 ```
