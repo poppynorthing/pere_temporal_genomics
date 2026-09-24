@@ -88,7 +88,8 @@ Based on the above, wee subsequently only kept sites that had a depth greater th
 
 ## Linkage pruning
 
-We calculated linkage decay and pruned linked variants using [plink](https://pmc.ncbi.nlm.nih.gov/articles/PMC1950838/) v1.9 (Purcell et al. 2007). 
+We calculated linkage decay and pruned linked variants using [plink](https://pmc.ncbi.nlm.nih.gov/articles/PMC1950838/) v1.9 (Purcell et al. 2007). We calculated the average LD across intervals in the genome using a modified script written by Mark Ravinet and Joana Meier for their [Speciation & Population Genomics: a how-to-guide](https://speciationgenomics.github.io/ld_decay/).
+
 ```
 #!bin/bash
 
@@ -102,7 +103,26 @@ plink --vcf $VCF --double-id --allow-extra-chr \
 --thin 0.1 -r2 gz --ld-window 100 --ld-window-kb 1000 \
 --ld-window-r2 0 \
 --make-bed --out joint_genotyped
+
+python ld_decay_calc_pcn_modified.py -i joint_genotyped.ld.gz -o joint_genotyped
 ```
+Then I visualized this output in R v4.4.1
+
+```
+# Linkage Decay and Pruning
+# Modified from M. Ravinet and J. Meier
+
+library(tidyverse)
+
+ld_bins <- read_tsv("Data/joint_genotyped.ld_decay_bins")
+
+# Plot LD Decay
+ggplot(ld_bins, aes(distance, avg_R2)) +
+  geom_line() +
+  xlab("Distance (bp)") + ylab(expression(italic(r)^2)) +
+  theme_bw() + geom_vline(xintercept = 50000, color = "red", linetype = "dashed")
+```
+
 
 ## References
 Petr Danecek, Adam Auton, Goncalo Abecasis, Cornelis A. Albers, Eric Banks, Mark A. DePristo, Robert E. Handsaker, Gerton Lunter, Gabor T. Marth, Stephen T. Sherry, Gilean McVean, Richard Durbin, 1000 Genomes Project Analysis Group, The variant call format and VCFtools, Bioinformatics, Volume 27, Issue 15, August 2011, Pages 2156–2158, https://doi.org/10.1093/bioinformatics/btr330
