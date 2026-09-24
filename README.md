@@ -1,5 +1,7 @@
 # Investigating temporal genomics in <i>Pectocarya recurvata</i>.
-Authors: Poppy C. Northing, D. Larry Venable, Katrina M. Dlugosch
+Authors: Poppy C. Northing*, D. Larry Venable, Katrina M. Dlugosch
+
+*poppynorthing@gmail.com
 
 ### This repo contains several markdown files with my annotated bioinformatic pipeline:
 
