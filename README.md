@@ -7,4 +7,4 @@ Authors: Poppy C. Northing, D. Larry Venable, Katrina M. Dlugosch
 
 sequence_trim_align.md -- code for trimming reads through checking read mapping statistics. \
 variant_calling.md -- code for variant calling through joint genotyping. \
-variant_filtering.md -- code for variant filtering and statistics 
+variant_filtering.md -- code for variant filtering and statistics, including calculating LD and pruning linked SNPs. \
