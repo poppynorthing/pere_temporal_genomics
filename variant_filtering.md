@@ -31,10 +31,10 @@ bcftools stats $VCF > $VCF.vcfstats
     # report per-individual heterozyosity and Fis
     vcftools --gzvcf $VCF --het --out vcf_stats/vcf.2
 ```
-Then, I looked at these data in R v4.4.1. This is a script modified from Jessica A. Rick's (Bioinformatics for Conservation course)[https://jessicarick.github.io/bioinformatics-for-conservation/docs/folder/5-variant-filtering/].
+Then, I looked at these data in R v4.4.1. This is a script modified from Jessica A. Rick's [Bioinformatics for Conservation course[(https://jessicarick.github.io/bioinformatics-for-conservation/docs/folder/5-variant-filtering/).
 ```
 # VCF Statistics
-# Modified from JR Rick
+# Modified from JA Rick
 
 library(tidyverse)
 
@@ -88,7 +88,7 @@ Based on the above, wee subsequently only kept sites that had a depth greater th
 
 ## Linkage pruning
 
-We calculated linkage decay and pruned linked variants using (plink)[https://pmc.ncbi.nlm.nih.gov/articles/PMC1950838/] v1.9 (Purcell et al. 2007). 
+We calculated linkage decay and pruned linked variants using [plink](https://pmc.ncbi.nlm.nih.gov/articles/PMC1950838/) v1.9 (Purcell et al. 2007). 
 ```
 #!bin/bash
 
