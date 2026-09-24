@@ -83,6 +83,36 @@ ldepth %>%
 Based on the above, wee subsequently only kept sites that had a depth greater than 20, a fraction of missing data greater than 0.3, and a minor allele frequency greater than 0.05 using Bcftools v1.19 (Danecek et al. 2021).
 
 ```
+#!bin/bash
+
+ml gatk
+ml bcftools
+
+VCF=joint_genotyped.2.vcf.gz
+
+# Keep SNPs only 
+gatk SelectVariants -V $VCF -O joint_genotyped.snps.2.vcf.gz --select-type-to-include SNP
+
+# Tag genotypes w/ a depth < 20 and convert them to missing data (./././.)  
+gatk VariantFiltration -V joint_genotyped.snps.2.vcf.gz -O joint_genotyped.d20.snps.2.vcf.gz \
+--genotype-filter-expression "DP < 20" --genotype-filter-name "LowDP" --genotype-filter-expression "GQ < 20" --genotype-filter-name "LowGQ"
+
+gatk SelectVariants -V joint_genotyped.d20.snps.2.vcf.gz -O joint_genotyped.filtd20.snps.2.vcf.gz --set-filtered-gt-to-nocall
+
+# Filter sites w/ low missing data. Threshold to be kept is 0.3 fraction missing
+bcftools view -i 'F_MISSING < 0.3' joint_genotyped.filtd20.snps.2.vcf.gz  > joint_genotyped.m30.filtd20.snps.2.vcf.gz
+
+# Recheck stats
+bcftools stats joint_genotyped.m30.filtd20.snps.2.vcf.gz > vcf_stats/joint_genotyped.m30.filtd20.snps.2.stats
+
+# Recalculate allele frequencies for next step (missing data changed things)
+bcftools +fill-tags joint_genotyped.m30.filtd20.snps.2.vcf.gz -- -t AF,AC > joint_genotyped.recalc.m30.filtd20.snps.2.vcf.gz
+
+# Filter sites w/ a minor allele frequency > 5%
+bcftools view -i 'MAF > 0.05' joint_genotyped.recalc.m30.filtd20.snps.2.vcf.gz > joint_genotyped.recalc.maf.m30.filtd20.snps.2.vcf.gz
+
+# Look at stats again
+bcftools stats joint_genotyped.recalc.maf.m30.filtd20.snps.2.vcf.gz > vcf_stats/joint_genotyped.recalc.maf.m30.filtd20.snps.2.stats
 
 ```
 
