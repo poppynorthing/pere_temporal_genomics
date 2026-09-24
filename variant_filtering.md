@@ -31,7 +31,7 @@ bcftools stats $VCF > $VCF.vcfstats
     # report per-individual heterozyosity and Fis
     vcftools --gzvcf $VCF --het --out vcf_stats/vcf.2
 ```
-Then, I looked at these data in R v4.4.1. This is a script modified from Jessica A. Rick's [Bioinformatics for Conservation course[(https://jessicarick.github.io/bioinformatics-for-conservation/docs/folder/5-variant-filtering/).
+Then, I looked at these data in R v4.4.1. This is a script modified from Jessica A. Rick's [Bioinformatics for Conservation course](https://jessicarick.github.io/bioinformatics-for-conservation/docs/folder/5-variant-filtering/).
 ```
 # VCF Statistics
 # Modified from JA Rick
