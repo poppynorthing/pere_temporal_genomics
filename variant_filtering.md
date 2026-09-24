@@ -1,7 +1,7 @@
 # Variant Filtering
 
 ## Generating VCF stats
-Use bcftools v1.19 ([Danecek et al. 2021](https://academic.oup.com/gigascience/article/10/2/giab008/6137722?login=true)) to generate overall summary stats and vcftools v0.1.16 ([Danecek et al. 2011](https://academic.oup.com/bioinformatics/article/27/15/2156/402296)) to generate more specific variant stats.
+Use Bcftools v1.19 ([Danecek et al. 2021](https://academic.oup.com/gigascience/article/10/2/giab008/6137722?login=true)) to generate overall summary stats and vcftools v0.1.16 ([Danecek et al. 2011](https://academic.oup.com/bioinformatics/article/27/15/2156/402296)) to generate more specific variant stats.
 
 ```
 #!bin/bash
@@ -32,10 +32,58 @@ bcftools stats $VCF > $VCF.vcfstats
     vcftools --gzvcf $VCF --het --out vcf_stats/vcf.2
 ```
 
-## Filtering variants
+```
+# VCF Statistics
+# Modified from JR Rick
 
+library(tidyverse)
+
+# Load files
+idepth <- read_table('Data/vcfstats/vcf.2.idepth') # Mean depth per individual
+imiss <- read_table('Data/vcfstats/vcf.2.imiss') # Mean missingness per individual
+ihet <- read_table('Data/vcfstats/vcf.2.het') # Observed homo/heterozygosity per individual
+ldepth <- read_table('Data/vcfstats/vcf.2.ldepth.mean') # Mean depth per site
+lmiss <- read_table('Data/vcfstats/vcf.2.lmiss') # Mean missingness per site
+
+# Generate relevant summary statistics
+summary(idepth)
+summary(imiss)
+summary(ihet)
+summary(ldepth)
+summary(lmiss)
+
+# Visualize
+
+# Distribution of observed heterozygosity per individual
+ihet %>%
+  mutate(HET_O = 1-(`O(HOM)`/N_SITES)) %>%
+  ggplot(aes(x=HET_O)) +
+  geom_histogram() +
+  theme_classic() +
+  labs(x="Observed Heterozygosity")
+
+# Distribution of inbreeding (F) per individual
+ihet %>%
+  ggplot(aes(x=F)) +
+  geom_histogram() +
+  theme_classic() +
+  labs(x = "Inbreeding (F)")
+
+# Distribution of depth per site w/ cutoff included
+
+ldepth %>%
+  ggplot() +
+  geom_histogram(aes(x=MEAN_DEPTH)) +
+  xlim(0,75) +
+  geom_vline(xintercept = 20, color = "red", linetype = "dashed") +
+  theme_classic()
+```
+
+## Filtering variants
+Based on the above, wee subsequently only kept sites that had a depth greater than 20, a fraction of missing data greater than 0.3, and a minor allele frequency greater than 0.05 using Bcftools v1.19 (Danecek et al. 2021).
 
 ```
+
 ```
 
 ## References
