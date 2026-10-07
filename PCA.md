@@ -77,7 +77,7 @@ p3.pca.diploid <- ggplot() +
 # Plot them all together with the same legend
 p1.pca.diploid + p2.pca.diploid + p3.pca.diploid + plot_layout(guides = "collect")
 ```
-* Note: I also ran a pca with the same data in plink vv2.0.0 (ref) as a sanity check; the results were the same.
+\* Note: I also ran a pca with the same data in plink vv2.0.0 (ref) as a sanity check; the results were the same.
 ```
 #!bin/bash
 
