@@ -25,7 +25,7 @@ pop(diploid.genind) <- popmap$status # add info about whether samples are histor
 X <- tab(diploid.genind, NA.method = "mean")
 ```
 
-Then, run PCA:
+Then, run PCA*:
 
 ```
 pca.diploid <- dudi.pca(X, scale = TRUE, scannf = FALSE, nf = 50)
@@ -77,5 +77,11 @@ p3.pca.diploid <- ggplot() +
 # Plot them all together with the same legend
 p1.pca.diploid + p2.pca.diploid + p3.pca.diploid + plot_layout(guides = "collect")
 ```
+* Note: I also ran a pca with the same data in plink vv2.0.0 (ref) as a sanity check; the results were the same.
+```
+#!bin/bash
 
+ml plink
+plink --vcf joint_genotyped.recalc.maf.m30.filtd20.snps.2.vcf.gz --pca
+```
 ### References
