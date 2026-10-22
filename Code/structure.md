@@ -1,5 +1,7 @@
 ## Structure
 
+Using ADMIXTURE to quantify population structure and look for evidence of population structure through time. This uses the linkage-pruned vcf files.
+
 ```
 !bin/bash
 
